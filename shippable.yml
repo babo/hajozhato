@@ -1,0 +1,9 @@
+env:
+    global:
+        - AWS_ACCESS_KEY_ID=AKIAIW7ROAWTLOHVWAJA
+        - AWS_DEFAULT_REGION=eu-west-1
+        - secure: gm1H8Df8zKpIIE8okm3BIxJW/7iTZW4x7Xk5Jgo2e80j2okW1z6pa+N8lwPSrBMNZkdK+9WLj7Oak5d6Rpe2pQ+SCrReURnd7rNvPQfH8cWMtwVMgAJV419c+851P7jgxL3c5BZF3RcYjVzSjI4AgA46UwZVarelnL8Emj4REbRM3OloCqNoR0OTZycnaFYNdfFo8qVzkExJ9icwBr2PelR6dRZ/B7pWrqBQHeDoHELLacNF6Au8ASCiALspcMkIRoFuUzDawxYh0n2GVOttDT1ofCn1gc6jN/WuM7JIFiMyOBrPrL0pOuxYk+4SpLnYt6eWQvxG1+D9Y67kyQmhDw==
+before_install:
+      - pip install awscli
+after_success:
+    - aws --profile=wasa deploy create-deployment --application-name nye-kk-app --s3-location bucket=no-aller-docker,key=releases/kk,bundleType=zip --deployment-group-name nye-kk-ecs --deployment-config-name CodeDeployDefault.OneAtATime --description="$(git rev-parse HEAD)"
