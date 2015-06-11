@@ -16,13 +16,13 @@ install:
   - pip install -r requirements.txt
 
 after_success:
-  - aws --profile=wasa deploy create-deployment --application-name nye-kk-app --s3-location bucket=no-aller-docker,key=releases/kk,bundleType=zip --deployment-group-name nye-kk-ecs --deployment-config-name CodeDeployDefault.OneAtATime --description="$(git rev-parse HEAD)"
+  - aws deploy create-deployment --application-name nye-kk-app --s3-location bucket=no-aller-docker,key=releases/kk,bundleType=zip --deployment-group-name nye-kk-ecs --deployment-config-name CodeDeployDefault.OneAtATime --description="$(git rev-parse HEAD)"
 
 before_script: 
-  - mkdir -p shippable/testresults
-  - mkdir -p shippable/codecoverage
+  - mkdir -p results/testresults
+  - mkdir -p results/codecoverage
 
 script:
-  - nosetests test.py --with-xunit --xunit-file=shippable/testresults/nosetests.xml
+  - nosetests test.py --with-xunit --xunit-file=results/testresults/nosetests.xml
   - which python && coverage run --branch test.py
-  - which python && coverage xml -o shippable/codecoverage/coverage.xml test.py
+  - which python && coverage xml -o results/codecoverage/coverage.xml test.py
